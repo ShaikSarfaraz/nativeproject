@@ -56,6 +56,23 @@ type DataStructure = {
 //   return []
 // }
 
+// const allData: DataStructure = {
+//   ...htmlData,
+//   ...cssData,
+//   ...jsData,
+//   ...reactData,
+//   ...endToEndData,
+//   ...designData,
+//   ...performanceData,
+//   ...securityData,
+//   ...apiData,
+//   ...architectureData,
+//   ...devopsData,
+//   ...systemDesignData,
+//   // ...testingData,
+//   // ...advancedData,
+// }
+
 const allData: DataStructure = {
   ...htmlData,
   ...cssData,
