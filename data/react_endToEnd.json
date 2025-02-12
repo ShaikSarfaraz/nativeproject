@@ -1,0 +1,137 @@
+{
+    "Project Setup & Architecture": [
+      {
+        "question": "How would you set up a new React project for an e-commerce web app?",
+        "answer": {
+          "steps": [
+            "Use Vite for Fast Project Setup & Development",
+            "Run commands: npm create vite@latest ecommerce-app --template react, cd ecommerce-app, npm install, npm run dev"
+          ],
+          "folderStructure": {
+            "/src": {
+              "/components": "Reusable UI components",
+              "/features": "Product, Cart, User Management",
+              "/pages": "Home, Product Details, Checkout",
+              "/services": "API calls",
+              "/context": "Global state using Context API",
+              "/hooks": "Custom hooks"
+            }
+          },
+          "tip": "Why Vite? Faster dev server, better performance than Create React App"
+        }
+      },
+      {
+        "question": "How do you structure routing in a React project?",
+        "answer": {
+          "steps": [
+            "Install React Router: npm install react-router-dom",
+            "Example routing setup in App.js: use BrowserRouter, Routes, Route"
+          ],
+          "code": "import { BrowserRouter, Routes, Route } from 'react-router-dom'; import Home from './pages/Home'; import ProductDetails from './pages/ProductDetails'; import Checkout from './pages/Checkout'; function App() { return (<BrowserRouter><Routes><Route path='/' element={<Home />} /><Route path='/product/:id' element={<ProductDetails />} /><Route path='/checkout' element={<Checkout />} /></Routes></BrowserRouter>); }",
+          "tip": "Enables client-side routing without page refresh"
+        }
+      }
+    ],
+    "State Management & API Integration": [
+      {
+        "question": "How do you manage global state in an e-commerce app?",
+        "answer": {
+          "steps": [
+            "Use Context API for lightweight global state management",
+            "Create Cart Context, provide cart and addToCart function"
+          ],
+          "code": "import { createContext, useState, useContext } from 'react'; const CartContext = createContext(); export function CartProvider({ children }) { const [cart, setCart] = useState([]); function addToCart(product) { setCart([...cart, product]); } return (<CartContext.Provider value={{ cart, addToCart }}>{children}</CartContext.Provider>); } export function useCart() { return useContext(CartContext); }",
+          "tip": "Avoids prop drilling and makes state accessible globally"
+        }
+      },
+      {
+        "question": "How do you integrate an API to fetch product data?",
+        "answer": {
+          "steps": [
+            "Install Axios: npm install axios",
+            "Use useEffect to fetch products",
+            "Use axios.get() to call API"
+          ],
+          "code": "import { useState, useEffect } from 'react'; import axios from 'axios'; function ProductList() { const [products, setProducts] = useState([]); useEffect(() => { axios.get('https://fakestoreapi.com/products').then(response => setProducts(response.data)).catch(error => console.error('Error fetching products', error)); }, []); return (<div>{products.map(product => (<h3 key={product.id}>{product.title}</h3>))}</div>); }",
+          "tip": "Ensures products are fetched only once using useEffect"
+        }
+      }
+    ],
+    "Performance Optimization": [
+      {
+        "question": "How do you optimize performance in large-scale React applications?",
+        "answer": {
+          "strategies": [
+            "Lazy Load Components using React.lazy()",
+            "Use React.memo() to prevent unnecessary re-renders",
+            "Use useMemo() for expensive calculations",
+            "Use Service Workers & Caching for faster page loads"
+          ],
+          "examples": [
+            "const ProductDetails = React.lazy(() => import('./pages/ProductDetails'));",
+            "<Suspense fallback={<div>Loading...</div>}><ProductDetails /></Suspense>;",
+            "const MemoizedProduct = React.memo(({ product }) => (<h3>{product.title}</h3>));",
+            "const total = useMemo(() => cart.reduce((sum, item) => sum + item.price, 0), [cart]);"
+          ]
+        }
+      }
+    ],
+    "Authentication & Security": [
+      {
+        "question": "How do you handle authentication securely in a React app?",
+        "answer": {
+          "steps": [
+            "Use JWT authentication with HTTP-only cookies",
+            "Store JWT in Secure Cookies (Backend - Express.js): res.cookie('token', jwtToken, { httpOnly: true, secure: true })",
+            "Check Auth Status in Frontend: const isAuthenticated = document.cookie.includes('token');",
+            "Use OAuth for Social Logins (Google, Facebook)"
+          ]
+        }
+      }
+    ],
+    "Testing Strategies": [
+      {
+        "question": "How do you test React components using Jest and React Testing Library?",
+        "answer": {
+          "steps": [
+            "Install Testing Tools: npm install --save-dev jest @testing-library/react @testing-library/jest-dom",
+            "Test Component Rendering & Interactions"
+          ],
+          "examples": [
+            "import { render, screen, fireEvent } from '@testing-library/react'; import Product from './Product'; test('renders product title', () => { render(<Product title='Test Product' />); expect(screen.getByText('Test Product')).toBeInTheDocument(); });",
+            "test('adds product to cart on button click', () => { render(<Product title='Product A' />); fireEvent.click(screen.getByText('Add to Cart')); expect(screen.getByText('Added to Cart')).toBeInTheDocument(); });"
+          ],
+          "tip": "Use Cypress for E2E Testing"
+        }
+      }
+    ],
+    "Deployment & CI/CD": [
+      {
+        "question": "How do you deploy a React app to production?",
+        "answer": {
+          "strategies": [
+            "Static Hosting (Vercel/Netlify)",
+            "Docker Deployment",
+            "Use CI/CD with GitHub Actions"
+          ],
+          "examples": [
+            "npm run build, vercel deploy",
+            "FROM node:18, WORKDIR /app, COPY . ., RUN npm install && npm run build, CMD ['npm', 'start']",
+            "name: Deploy to Netlify, on: push: branches: ['main'], jobs: build: runs-on: ubuntu-latest, steps: checkout code, install dependencies, build, deploy to Netlify"
+          ],
+          "tip": "Automates build & deployment on every push"
+        }
+      }
+    ],
+    "Final Thoughts": {
+      "summary": "This React interview guide covers an end-to-end real-world project workflow, including:",
+      "topics": [
+        "Project Setup (Folder Structure, Routing, State Management)",
+        "API Integration (Fetching, Authentication, Secure Cookies)",
+        "Performance Optimization (Lazy Loading, Memoization)",
+        "Testing (Jest, Cypress)",
+        "Deployment (Vercel, Docker, GitHub Actions)"
+      ]
+    }
+  }
+  

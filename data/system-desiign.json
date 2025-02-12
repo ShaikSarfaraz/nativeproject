@@ -1,0 +1,71 @@
+{
+    "systemDesignFrontendInterviewQuestions": {
+      "coreSystemDesignConcepts": [
+        {
+          "question": "What is System Design in Frontend Development?",
+          "answer": "Frontend system design is the high-level architectural planning of how web applications are structured to ensure scalability, maintainability, and performance. \n\nKey areas:\n- UI component structure (Monolithic vs. Micro-Frontend)\n- State management (Client-Side vs. Server-Side State)\n- Performance optimization (Lazy Loading, Code Splitting)\n- API communication strategies (GraphQL vs. REST)"
+        },
+        {
+          "question": "How would you architect a scalable Single Page Application (SPA)?",
+          "answer": "A scalable SPA follows a modular, component-driven architecture with:\n- Modular Component-Based Structure (React, Vue, Angular)\n- Efficient State Management (Redux, Zustand, React Query)\n- Code-Splitting & Lazy Loading for performance\n- SSR/SSG for SEO (Next.js, Nuxt.js)\n- Service Worker & PWA support for offline functionality\n\nExample High-Level Architecture:\nFrontend (React/Vue) → API Gateway (GraphQL/REST) → Backend (Node.js, Python) → Database (PostgreSQL, MongoDB)"
+        },
+        {
+          "question": "What are the key differences between Monolithic and Micro-Frontend Architectures?",
+          "answer": "Monolithic Frontend vs Micro-Frontend:\n- Codebase: Single, large codebase vs Multiple small applications\n- Deployment: Single deployment vs Independent deployments\n- Scalability: Harder to scale vs Easier to scale independently\n- Tech Stack: One framework (React, Angular) vs Different frameworks per module\n- Example: Standard React SPA vs Amazon, Netflix\n\nWhen to choose Micro-Frontends?\n- Large teams working on different parts of an application\n- Need for independent deployments and updates\n- Avoiding frontend bottlenecks"
+        },
+        {
+          "question": "How do you design a scalable Component Library for a large-scale application?",
+          "answer": "Follow Atomic Design Principles (Atoms → Molecules → Organisms)\nUse Storybook for documentation\nEnsure Accessibility (ARIA attributes, WCAG compliance)\nUse Design Tokens (Centralized colors, typography)\n\nExample Folder Structure for a Component Library:\n/components\n  /Button\n    index.js\n    Button.jsx\n    Button.test.js\n    Button.stories.js"
+        },
+        {
+          "question": "How do you handle API communication efficiently in a frontend system?",
+          "answer": "Use GraphQL for flexible data fetching\nImplement pagination & caching (React Query, SWR)\nDebounce API calls for search functionalities\n\nExample (Using Fetch with Caching):\n```js\nconst cache = new Map();\n\nasync function fetchData(url) {\n  if (cache.has(url)) return cache.get(url);\n  const response = await fetch(url);\n  const data = await response.json();\n  cache.set(url, data);\n  return data;\n}\n```"
+        }
+      ],
+      "performanceAndScalability": [
+        {
+          "question": "How do you optimize frontend performance in a large-scale application?",
+          "answer": "Reduce bundle size (Tree Shaking, Code Splitting)\nUse Lazy Loading for non-critical components\nUse Web Workers for heavy computations\nOptimize images (WebP, Responsive Images)\n\nExample (Code Splitting in React using Lazy & Suspense):\n```jsx\nconst LazyComponent = React.lazy(() => import(\"./HeavyComponent\"));\n\nfunction App() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>\n      <LazyComponent />\n    </Suspense>\n  );\n}\n```"
+        },
+        {
+          "question": "How would you handle internationalization (i18n) in a frontend system?",
+          "answer": "Store translations in JSON files\nUse i18next or react-intl for translation management\nImplement locale-based routing\n\nExample (i18n using react-i18next):\n```js\nimport { useTranslation } from 'react-i18next';\n\nfunction App() {\n  const { t } = useTranslation();\n  return <h1>{t('welcome_message')}</h1>;\n}\n```"
+        },
+        {
+          "question": "How do you ensure frontend security in a web application?",
+          "answer": "Prevent XSS (Cross-Site Scripting) using sanitize-html\nEnable Content Security Policy (CSP)\nUse Secure Cookies & HTTPOnly flags\nValidate API inputs to prevent SQL Injection\n\nExample (Setting HTTPOnly Cookies in Express Backend):\n```js\nres.cookie(\"session\", token, { httpOnly: true, secure: true });\n```"
+        }
+      ],
+      "advancedFrontendSystemDesign": [
+        {
+          "question": "How would you design a Progressive Web App (PWA)?",
+          "answer": "Use Service Workers for offline caching\nAdd a Web App Manifest (manifest.json)\nUse IndexedDB for persistent storage\nOptimize for Lighthouse PWA Score\n\nExample (Registering a Service Worker):\n```js\nif (\"serviceWorker\" in navigator) {\n  navigator.serviceWorker.register(\"/sw.js\");\n}\n```"
+        },
+        {
+          "question": "How would you design a real-time chat application?",
+          "answer": "Use WebSockets for real-time communication\nImplement optimistic UI updates\nUse Redis for message caching\n\nExample Architecture:\nFrontend (React) → WebSocket Server (Node.js + Socket.io) → Database (MongoDB)\n\nExample (WebSocket Connection in React):\n```js\nconst socket = new WebSocket(\"ws://localhost:8080\");\n\nsocket.onmessage = (event) => {\n  console.log(\"Message received:\", event.data);\n};\n```"
+        },
+        {
+          "question": "How would you architect an e-commerce frontend with high traffic?",
+          "answer": "Use CDN for assets & caching\nImplement SSR for SEO\nUse Redis for session caching\nOptimize image loading with lazy loading\n\nExample High-Level Design:\nClient (React) → Load Balancer → API Gateway → Backend (Node.js, Python) → Database (PostgreSQL)"
+        },
+        {
+          "question": "How would you implement role-based access control (RBAC) in a frontend system?",
+          "answer": "Use JWT Tokens with roles\nRestrict UI elements based on roles\nValidate roles at API level\n\nExample (Checking User Role in React):\n```js\nconst user = { role: \"admin\" };\n\nfunction Dashboard() {\n  return user.role === \"admin\" ? <AdminPanel /> : <UserDashboard />;\n}\n```"
+        },
+        {
+          "question": "How do you handle offline support in a frontend system?",
+          "answer": "Use Service Workers for caching\nUse IndexedDB for storing offline data\nImplement background sync\n\nExample (Storing Data in IndexedDB):\n```js\nconst request = indexedDB.open(\"myDatabase\", 1);\nrequest.onsuccess = (event) => {\n  const db = event.target.result;\n};\n```"
+        },
+        {
+          "question": "How do you design a frontend system that supports multi-tenancy?",
+          "answer": "Separate UI themes & branding per tenant\nTenant-specific configurations (config.json)\nUse Subdomains (tenant1.example.com)\n\nExample (Loading Tenant-Specific Config):\n```js\nfetch(`/config/${tenantId}.json`).then((res) => res.json());\n```"
+        },
+        {
+          "question": "How would you design a large-scale dashboard application?",
+          "answer": "Lazy load non-critical dashboard widgets\nUse WebSockets for real-time updates\nImplement caching for API responses"
+        }
+      ]
+    }
+  }
+  

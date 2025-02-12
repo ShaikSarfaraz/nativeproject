@@ -1,0 +1,123 @@
+{
+    "Component Design Patterns": [
+      {
+        "question": "What are the different types of React component design patterns?",
+        "answer": {
+          "patterns": [
+            {"pattern": "Higher-Order Component (HOC)", "description": "Function that wraps a component to add extra functionality", "useCase": "Logging, authentication"},
+            {"pattern": "Render Props", "description": "Pass a function as a prop to control rendering", "useCase": "Sharing logic (e.g., mouse tracking)"},
+            {"pattern": "Compound Components", "description": "Components that work together", "useCase": "Tabs, Dropdowns"},
+            {"pattern": "Controlled & Uncontrolled Components", "description": "Manage form state using state (controlled) or DOM (uncontrolled)", "useCase": "Forms, inputs"},
+            {"pattern": "Hooks Pattern", "description": "Custom hooks to share logic", "useCase": "API fetching, auth"}
+          ],
+          "tip": "Choosing the right pattern improves modularity & maintainability"
+        }
+      },
+      {
+        "question": "What is a Higher-Order Component (HOC)?",
+        "answer": {
+          "definition": "An HOC is a function that takes a component as input and returns an enhanced component.",
+          "useCases": ["Logging", "Authentication", "Caching"],
+          "example": "function withAuth(Component) { return function AuthComponent(props) { const isAuthenticated = localStorage.getItem('token'); return isAuthenticated ? <Component {...props} /> : <p>Access Denied</p>; }; }"
+        }
+      },
+      {
+        "question": "What is the Render Props pattern in React?",
+        "answer": {
+          "definition": "A render prop is a function passed as a prop to control component rendering.",
+          "useCases": ["Reusable logic", "Mouse tracking", "Fetching API data"],
+          "example": "function MouseTracker({ render }) { const [position, setPosition] = React.useState({ x: 0, y: 0 }); React.useEffect(() => { const updateMouse = (e) => setPosition({ x: e.clientX, y: e.clientY }); window.addEventListener('mousemove', updateMouse); return () => window.removeEventListener('mousemove', updateMouse); }, []); return render(position); }"
+        }
+      },
+      {
+        "question": "What is the Compound Component Pattern?",
+        "answer": {
+          "definition": "The Compound Component Pattern allows multiple components to work together while sharing state.",
+          "useCases": ["Tabs", "Dropdowns", "Accordions"],
+          "example": "function Tabs({ children }) { const [activeIndex, setActiveIndex] = React.useState(0); return React.Children.map(children, (child, index) => React.cloneElement(child, { activeIndex, setActiveIndex, index })); }"
+        }
+      },
+      {
+        "question": "What is the difference between Controlled and Uncontrolled Components?",
+        "answer": {
+          "controlled": {
+            "definition": "State is controlled by React (useState())",
+            "example": "<input value={state} onChange={setState} />"
+          },
+          "uncontrolled": {
+            "definition": "Uses the native DOM (ref)",
+            "example": "<input ref={inputRef} />"
+          },
+          "tip": "Controlled components provide better control over form state"
+        }
+      }
+    ],
+    "Architectural & Performance Patterns": [
+      {
+        "question": "What are best practices for structuring a React project?",
+        "answer": {
+          "tip": "Follow the Feature-Based Folder Structure",
+          "structure": {
+            "src": {
+              "components": "Reusable UI Components",
+              "features": "Business Logic Components",
+              "services": "API Calls, Utilities",
+              "hooks": "Custom Hooks",
+              "contexts": "Context API Providers",
+              "pages": "Main Pages"
+            }
+          }
+        }
+      },
+      {
+        "question": "What is the Hooks Pattern in React?",
+        "answer": {
+          "definition": "The Hooks Pattern allows sharing logic between components using custom hooks.",
+          "bestFor": ["Fetching API data", "Authentication", "Dark mode"],
+          "example": "function useFetch(url) { const [data, setData] = React.useState(null); React.useEffect(() => { fetch(url).then(res => res.json()).then(setData); }, [url]); return data; }"
+        }
+      },
+      {
+        "question": "What is Lazy Loading, and how does it improve performance?",
+        "answer": {
+          "definition": "Lazy loading defers loading of non-critical components to improve performance.",
+          "example": "const HeavyComponent = React.lazy(() => import('./HeavyComponent')); function App() { return <Suspense fallback={<div>Loading...</div>}> <HeavyComponent /> </Suspense>; }"
+        }
+      },
+      {
+        "question": "What is Error Boundary in React?",
+        "answer": {
+          "definition": "Error Boundaries catch JavaScript errors in components and prevent the app from crashing.",
+          "example": "class ErrorBoundary extends React.Component { constructor(props) { super(props); this.state = { hasError: false }; } static getDerivedStateFromError(error) { return { hasError: true }; } render() { if (this.state.hasError) { return <h1>Something went wrong.</h1>; } return this.props.children; }}"
+        }
+      },
+      {
+        "question": "What are best practices for optimizing React applications?",
+        "answer": {
+          "tips": [
+            "Use React.memo() to prevent unnecessary re-renders.",
+            "Use useCallback() and useMemo() for expensive computations.",
+            "Lazy Load Components to reduce initial load time.",
+            "Use Code Splitting & Tree Shaking to eliminate unused code."
+          ]
+        }
+      }
+    ],
+    "Advanced React Patterns": [
+      {
+        "question": "What is the Provider Pattern in React?",
+        "answer": {
+          "definition": "The Provider Pattern provides a way to share global state using Context API.",
+          "example": "const ThemeContext = createContext(); function ThemeProvider({ children }) { const [theme, setTheme] = useState('light'); return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>; }"
+        }
+      },
+      {
+        "question": "What is the Factory Component Pattern in React?",
+        "answer": {
+          "definition": "Factory components dynamically create components with different configurations.",
+          "example": "const createButton = (color) => ({ label }) => (<button style={{ background: color }}>{label}</button>); const RedButton = createButton('red'); const BlueButton = createButton('blue');"
+        }
+      }
+    ]
+  }
+  

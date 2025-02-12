@@ -1,0 +1,254 @@
+{
+    "JavaScript": {
+      "Basic": [
+        {
+          "question": "What is JavaScript, and how is it different from Java?",
+          "answer": "JavaScript is a lightweight, interpreted programming language used for web development. Java is a compiled, object-oriented language used for backend and applications. JavaScript is mainly used for frontend development, but with Node.js, it can also be used for backend development."
+        },
+        {
+          "question": "What are the different data types in JavaScript?",
+          "answer": "JavaScript has 7 primitive and 1 non-primitive data type:\n\nData Type\tExample\nString\t\"Hello\"\nNumber\t42, 3.14\nBoolean\ttrue, false\nUndefined\tlet x; (no value assigned)\nNull\tlet y = null;\nSymbol\tSymbol(\"id\") (unique identifier)\nBigInt\tBigInt(12345678901234567890)\nObject (non-primitive)\t{ name: \"John\", age: 30 }"
+        },
+        {
+          "question": "What is the difference between let, const, and var?",
+          "answer": "var: Function scope, Reassignment allowed, Hoisted with undefined.\nlet: Block scope, Reassignment allowed, Hoisted but not initialized.\nconst: Block scope, Not allowed, Hoisted but not initialized."
+        },
+        {
+          "question": "What are truthy and falsy values in JavaScript?",
+          "answer": "Falsy values: false, 0, \"\" (empty string), null, undefined, NaN.\nTruthy values: Everything else (e.g., \"hello\", 42, {}, [], true)."
+        },
+        {
+          "question": "What is the difference between == and ===?",
+          "answer": "== (Loose equality) converts types before comparing.\n=== (Strict equality) compares without type conversion."
+        },
+        {
+          "question": "What is JavaScript, and how does it work in the browser?",
+          "answer": "JavaScript is a single-threaded, interpreted language that runs in the browser using the JavaScript Engine (V8, SpiderMonkey, etc.).",
+          "steps": [
+            "JavaScript code runs inside the Call Stack.",
+            "Asynchronous operations (API calls, timers) are handled by the Event Loop & Callback Queue.",
+            "The Browser APIs (DOM, Web Storage) provide extra functionality."
+          ]
+        },
+        {
+          "question": "What is the difference between == and === in JavaScript?",
+          "answer": {
+            "loose_equality": "== converts values before comparing.",
+            "strict_equality": "=== compares values without type conversion."
+          },
+          "example": [
+            "console.log(5 == '5'); // true (Type coercion)",
+            "console.log(5 === '5'); // false (Different types)"
+          ]
+        },
+        {
+          "question": "What is the difference between null and undefined?",
+          "answer": {
+            "null": "Intentional absence of a value (assigned manually)",
+            "undefined": "A variable that has been declared but not assigned a value"
+          },
+          "example": [
+            "let a; // undefined",
+            "let b = null; // null (intentional empty value)"
+          ]
+        },
+        {
+          "question": "What are closures in JavaScript?",
+          "answer": "A closure is a function that remembers variables from its outer scope even after execution.",
+          "example": [
+            "function outer() { let count = 0; return function inner() { count++; console.log(count); }; }",
+            "const counter = outer();",
+            "counter(); // 1",
+            "counter(); // 2"
+          ],
+          "use_case": "Useful for private variables & function encapsulation"
+        },
+        {
+          "question": "What is the difference between let, const, and var?",
+          "answer": [
+            {"feature": "Scope", "var": "Function-scoped", "let": "Block-scoped", "const": "Block-scoped"},
+            {"feature": "Reassignment", "var": "Allowed", "let": "Allowed", "const": "Not allowed"},
+            {"feature": "Hoisting", "var": "Hoisted with undefined", "let": "Hoisted but not initialized", "const": "Hoisted but not initialized"}
+          ],
+          "example": [
+            "let x = 10;",
+            "const y = 20;",
+            "var z = 30;"
+          ]
+        },
+        {
+          "question": "What is event delegation in JavaScript?",
+          "answer": "Event delegation allows attaching a single event listener to a parent element instead of multiple child elements.",
+          "example": [
+            "document.querySelector('#parent').addEventListener('click', (event) => {",
+            "  if (event.target.classList.contains('child')) {",
+            "    console.log('Child clicked!');",
+            "  }",
+            "});"
+          ],
+          "use_case": "Improves performance and works with dynamically added elements"
+        }
+      ],
+      "Intermediate": [
+        {
+          "question": "What is an Immediately Invoked Function Expression (IIFE)?",
+          "answer": "An IIFE is a function that executes immediately after being defined. It prevents polluting the global scope and is used for module patterns and encapsulation."
+        },
+        {
+          "question": "What are arrow functions, and how are they different from regular functions?",
+          "answer": "Arrow functions provide a shorter syntax and do not have their own this context. They cannot use this, arguments, or super, and offer a more concise syntax."
+        },
+        {
+          "question": "What is event delegation in JavaScript?",
+          "answer": "Event delegation allows you to handle events at a parent level, instead of adding event listeners to multiple child elements. It improves performance and is useful for dynamically added elements."
+        },
+        {
+          "question": "What is the difference between synchronous and asynchronous JavaScript?",
+          "answer": "Synchronous: Code executes line by line.\nAsynchronous: Code executes without blocking, using callbacks, promises, or async/await."
+        },
+        {
+          "question": "What is a closure in JavaScript?",
+          "answer": "A closure is a function that remembers variables from its outer scope, even after the function has finished executing. It is useful for data encapsulation and private variables."
+        }
+      ],
+      "Advanced": [
+        {
+          "question": "What is the difference between call(), apply(), and bind()?",
+          "answer": "call() calls a function with this and arguments.\napply() passes arguments as an array.\nbind() returns a new function with this bound."
+        },
+        {
+          "question": "What is the difference between deep and shallow copy?",
+          "answer": "Shallow copy: Copies references, not actual objects (Object.assign(), spread ...).\nDeep copy: Creates a completely new object (JSON.parse(JSON.stringify(obj)), structuredClone())."
+        },
+        {
+          "question": "What are generators in JavaScript?",
+          "answer": "A generator function (function*) allows pausing and resuming execution using yield. It is useful for iterators and asynchronous programming."
+        },
+        {
+          "question": "What is memoization in JavaScript?",
+          "answer": "Memoization is a performance optimization technique that caches function results."
+        }
+      ]
+    },
+    "ES6": {
+      "Basic": [
+        {
+          "question": "What are the key features introduced in ES6?",
+          "answer": "ES6 introduced several improvements, including:\n\nlet & const (Block-scoped variables)\nArrow functions (() => {})\nTemplate literals (Hello ${name})\nDestructuring\nDefault parameters\nRest & Spread operators\nClasses (class MyClass {})\nPromises & Async/Await\nModules (import/export)"
+        },
+        {
+          "question": "What is the difference between var, let, and const in ES6?",
+          "answer": "Feature\tvar\tlet\tconst\nScope\tFunction-scoped\tBlock-scoped\tBlock-scoped\nHoisting\tHoisted with undefined\tHoisted but not initialized\tHoisted but not initialized\nReassignment\tAllowed\tAllowed\tNot allowed"
+        },
+        {
+          "question": "What are template literals in ES6?",
+          "answer": "Template literals use backticks (`) instead of quotes, allowing:\n\nMulti-line strings\nString interpolation using ${}"
+        },
+        {
+          "question": "What is destructuring in ES6?",
+          "answer": "Destructuring allows extracting values from arrays/objects into variables."
+        },
+        {
+          "question": "What are default parameters in ES6?",
+          "answer": "Allows setting default values for function parameters."
+        }
+      ],
+      "Intermediate": [
+        {
+          "question": "What is the spread operator (...), and how is it used?",
+          "answer": "The spread operator (...) expands arrays/objects into individual elements."
+        },
+        {
+          "question": "What is the rest parameter (...), and how is it different from the spread operator?",
+          "answer": "The rest parameter collects multiple arguments into an array. Spread (...) expands elements. Rest (...) collects elements into an array."
+        },
+        {
+          "question": "What are arrow functions, and how are they different from regular functions?",
+          "answer": "Arrow functions have shorter syntax and do not have their own this context."
+        },
+        {
+          "question": "What are ES6 classes? How do they work?",
+          "answer": "ES6 introduced the class syntax for creating objects."
+        },
+        {
+          "question": "What is the difference between map(), filter(), and reduce() in JavaScript?",
+          "answer": "map() transforms each array element, filter() filters elements based on a condition, reduce() reduces array to a single value."
+        }
+      ],
+      "Advanced": [
+        {
+          "question": "What are JavaScript modules (import/export) in ES6?",
+          "answer": "Modules allow code to be split into separate files and imported/exported."
+        },
+        {
+          "question": "What are Promises in JavaScript?",
+          "answer": "A Promise handles asynchronous operations in JavaScript."
+        },
+        {
+          "question": "What is async/await, and how does it work?",
+          "answer": "async/await simplifies working with Promises."
+        },
+        {
+          "question": "What are WeakMap and WeakSet in ES6?",
+          "answer": "WeakMap: Holds key-value pairs where keys are objects only (not primitives). WeakSet: Holds unique objects only, and does not prevent garbage collection."
+        },
+        {
+          "question": "What is optional chaining (?.) in JavaScript?",
+          "answer": "Optional chaining prevents errors when accessing deeply nested properties."
+        },
+        {
+          "question": "What is the nullish coalescing operator (??)?",
+          "answer": "Returns the right-hand value if the left-hand value is null or undefined."
+        }
+      ]
+    },
+    "TypeScript": {
+      "Basic": [
+        {
+          "question": "What is TypeScript?",
+          "answer": "TypeScript is a superset of JavaScript that adds static typing. It compiles down to JavaScript and helps catch errors early during development."
+        },
+        {
+          "question": "What are the benefits of using TypeScript?",
+          "answer": "TypeScript provides better tooling, improved readability, easier refactoring, and catches errors at compile time."
+        },
+        {
+          "question": "What are the basic types in TypeScript?",
+          "answer": "Basic types include:\nstring, number, boolean, array, tuple, enum, any, void, null, and undefined."
+        },
+        {
+          "question": "What is the difference between type and interface in TypeScript?",
+          "answer": "Type can describe any data type (e.g., primitive, object, function), while interface is more focused on defining the shape of objects, with support for extending and implementing."
+        }
+      ],
+      "Intermediate": [
+        {
+          "question": "What is type inference in TypeScript?",
+          "answer": "Type inference is the automatic detection of variable types in TypeScript based on their values. TypeScript infers types when no explicit type is provided."
+        },
+        {
+          "question": "What are union types in TypeScript?",
+          "answer": "Union types allow a variable to hold multiple types. This is done by separating types using the '|' symbol."
+        },
+        {
+          "question": "What are generics in TypeScript?",
+          "answer": "Generics allow you to write reusable code by enabling types to be passed as parameters to functions or classes."
+        }
+      ],
+      "Advanced": [
+        {
+          "question": "What is a decorator in TypeScript?",
+          "answer": "A decorator is a special kind of declaration that can be attached to a class, method, accessor, property, or parameter. They provide a way to modify the behavior of a class or its members."
+        },
+        {
+          "question": "What are mapped types in TypeScript?",
+          "answer": "Mapped types allow you to create new types by transforming properties of an existing type."
+        },
+        {
+          "question": "What is a tuple in TypeScript?",
+          "answer": "A tuple is an array with a fixed number of elements, where each element can have a different type."
+        }
+      ]
+    }
+  }
+  

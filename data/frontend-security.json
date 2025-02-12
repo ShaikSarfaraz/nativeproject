@@ -1,0 +1,83 @@
+{
+    "core_frontend_security_concepts": [
+      {
+        "question": "What are the most common security vulnerabilities in frontend applications?",
+        "answer": [
+          "Cross-Site Scripting (XSS) → Injecting malicious scripts into web pages.",
+          "Cross-Site Request Forgery (CSRF) → Forcing users to perform unwanted actions.",
+          "Clickjacking → Tricking users into clicking hidden elements (iframes).",
+          "CORS Misconfiguration → Exposing APIs to unauthorized domains.",
+          "Insecure Storage → Storing sensitive data in localStorage/cookies.",
+          "Broken Authentication → Weak JWT/session management."
+        ]
+      },
+      {
+        "question": "What is Cross-Site Scripting (XSS), and how do you prevent it?",
+        "answer": "XSS allows attackers to inject malicious JavaScript into web pages viewed by users. Prevention Methods: Escape user input before rendering (innerHTML is dangerous). Use CSP (Content Security Policy) to block unauthorized scripts. Validate and sanitize all input using DOMPurify.",
+        "example": "import DOMPurify from 'dompurify'; function SafeComponent({ userInput }) { return <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userInput) }} />; }"
+      },
+      {
+        "question": "What is Cross-Site Request Forgery (CSRF), and how do you prevent it?",
+        "answer": "CSRF tricks users into unintentionally submitting a request to another site. Prevention Methods: Use CSRF tokens for form submissions. Set SameSite cookies to prevent automatic cross-site requests. Require re-authentication for sensitive actions.",
+        "example": {
+          "csrf_token_input": "<input type='hidden' name='csrf_token' value='random-token-123'>",
+          "cookie_protection": "res.cookie('session', token, { httpOnly: true, sameSite: 'Strict' });"
+        }
+      },
+      {
+        "question": "What is Clickjacking, and how do you prevent it?",
+        "answer": "Clickjacking uses invisible iframes to trick users into clicking buttons on another website. Prevention Methods: Use X-Frame-Options: DENY to prevent iframe embedding. Implement CSP frame-ancestors policy.",
+        "example": "app.use((req, res, next) => { res.setHeader('X-Frame-Options', 'DENY'); next(); });"
+      },
+      {
+        "question": "What is Content Security Policy (CSP), and why is it important?",
+        "answer": "CSP restricts which scripts, styles, and resources can load on a webpage, preventing XSS attacks.",
+        "example": "res.setHeader('Content-Security-Policy', 'default-src 'self'; script-src 'self' 'https://apis.example.com');"
+      },
+      {
+        "question": "How does CORS (Cross-Origin Resource Sharing) affect frontend security?",
+        "answer": "CORS controls which domains can access your APIs. Best Practices: Allow only trusted domains (Access-Control-Allow-Origin). Restrict HTTP methods (Access-Control-Allow-Methods). Use authentication headers (Authorization: Bearer token).",
+        "example": "app.use(cors({ origin: 'https://trusted-site.com', methods: ['GET', 'POST'], credentials: true }));"
+      }
+    ],
+    "authentication_and_secure_storage": [
+      {
+        "question": "How do you securely manage user authentication in frontend applications?",
+        "answer": "Best Practices: Use OAuth 2.0 / OpenID Connect for authentication. Store JWTs securely in HTTP-only cookies. Implement Multi-Factor Authentication (MFA) for extra security.",
+        "example": "res.cookie('token', jwtToken, { httpOnly: true, secure: true, sameSite: 'Strict' });"
+      },
+      {
+        "question": "What is the safest way to store authentication tokens in the browser?",
+        "answer": {
+          "localStorage": "❌ Insecure (XSS risk) - Avoid for sensitive data",
+          "sessionStorage": "❌ Insecure (XSS risk) - Short-lived tokens only",
+          "HTTP-only_Cookies": "✅ Secure (No XSS risk) - Best for JWT authentication"
+        },
+        "example": "res.cookie('auth', token, { httpOnly: true, secure: true, sameSite: 'Lax' });"
+      },
+      {
+        "question": "How do you prevent session hijacking in frontend applications?",
+        "answer": "Best Practices: Rotate JWT tokens periodically. Use refresh tokens instead of storing access tokens long-term. Monitor IP address & device fingerprinting.",
+        "example": "if (tokenIsExpired) { refreshAuthToken(); }"
+      }
+    ],
+    "advanced_security_practices": [
+      {
+        "question": "How do you protect against DOM-based XSS attacks?",
+        "answer": "DOM-based XSS occurs when JavaScript dynamically modifies the DOM using unsanitized input. Prevention Methods: Avoid using .innerHTML, .outerHTML, .document.write(). Use textContent instead of innerHTML. Use DOMPurify to sanitize user input.",
+        "example": "document.getElementById('output').textContent = userInput;"
+      },
+      {
+        "question": "How do you prevent open redirects in frontend applications?",
+        "answer": "An open redirect vulnerability occurs when a site allows redirecting users to any external URL without validation. Prevention Methods: Validate URLs before redirection. Allow only whitelisted domains.",
+        "example": "const allowedHosts = ['example.com']; const url = new URL(userInputURL); if (allowedHosts.includes(url.hostname)) { window.location.href = userInputURL; } else { console.warn('Unsafe redirect blocked!'); }"
+      },
+      {
+        "question": "How do you handle security in third-party dependencies?",
+        "answer": "Regularly check dependencies with npm audit or Snyk. Avoid using outdated or unmaintained packages. Lock dependencies using package-lock.json.",
+        "example": "npm audit --fix"
+      }
+    ],
+    "final_thoughts": "These Frontend Security interview questions cover: XSS, CSRF, Clickjacking (User protection), Authentication & Secure Storage (JWT, OAuth2), Best Practices for API Security (CORS, HTTPS, Token Rotation)"
+  }
+  

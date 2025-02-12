@@ -1,0 +1,139 @@
+{
+    "Fundamentals of React Testing": [
+      {
+        "question": "What are the different types of tests in React applications?",
+        "answer": {
+          "testTypes": [
+            {"type": "Unit Testing", "purpose": "Tests individual functions/components in isolation", "tools": ["Jest", "React Testing Library"]},
+            {"type": "Integration Testing", "purpose": "Tests how multiple components interact", "tools": ["React Testing Library"]},
+            {"type": "End-to-End (E2E) Testing", "purpose": "Simulates user interactions in the browser", "tools": ["Cypress", "Playwright"]},
+            {"type": "Performance Testing", "purpose": "Ensures app loads fast under stress", "tools": ["Lighthouse", "WebPageTest"]}
+          ],
+          "tip": "Using a mix of these ensures a robust React app"
+        }
+      },
+      {
+        "question": "What is Jest, and why is it used in React testing?",
+        "answer": {
+          "definition": "Jest is a JavaScript testing framework that provides:",
+          "features": [
+            "Zero config setup for unit tests",
+            "Mocking capabilities",
+            "Snapshot testing"
+          ],
+          "example": "test('adds numbers correctly', () => { function add(a, b) { return a + b; } expect(add(2, 3)).toBe(5); });",
+          "tip": "Jest is the default testing framework for React apps"
+        }
+      },
+      {
+        "question": "What is React Testing Library (RTL), and how does it work?",
+        "answer": {
+          "definition": "React Testing Library (RTL) focuses on testing React components from the user’s perspective, rather than testing implementation details.",
+          "bestPractices": [
+            "Use queries like getByText, getByRole, getByTestId",
+            "Avoid querySelector (tests should mimic real user behavior)"
+          ],
+          "example": "import { render, screen, fireEvent } from '@testing-library/react'; test('button click increments counter', () => { render(<Button />); const button = screen.getByRole('button'); fireEvent.click(button); expect(screen.getByText('Clicked: 1')).toBeInTheDocument(); });",
+          "tip": "Simulates user interactions without relying on implementation details"
+        }
+      },
+      {
+        "question": "What is the difference between Jest and React Testing Library?",
+        "answer": {
+          "comparison": [
+            {"feature": "Jest", "purpose": "General JS testing framework", "focus": "Unit tests, assertions, mocking", "useCase": "Testing functions, reducers"},
+            {"feature": "React Testing Library", "purpose": "UI component testing", "focus": "Testing from the user's perspective", "useCase": "Testing buttons, forms, modals"}
+          ],
+          "tip": "Jest tests JavaScript logic, while RTL tests UI interactions"
+        }
+      }
+    ],
+    "Unit & Integration Testing": [
+      {
+        "question": "How do you test a React component that uses state?",
+        "answer": {
+          "tip": "Use fireEvent to trigger state changes and check if the UI updates correctly.",
+          "example": "import { render, screen, fireEvent } from '@testing-library/react'; test('increments counter on button click', () => { render(<Counter />); const button = screen.getByRole('button'); fireEvent.click(button); expect(screen.getByText('Count: 1')).toBeInTheDocument(); });",
+          "tip2": "Ensures component state updates correctly"
+        }
+      },
+      {
+        "question": "How do you mock API calls in Jest?",
+        "answer": {
+          "tip": "Use jest.fn() or jest.mock() to simulate API calls and prevent real network requests.",
+          "example": "import { fetchData } from './api'; jest.mock('./api'); test('fetches data successfully', async () => { fetchData.mockResolvedValueOnce({ name: 'Alice' }); const data = await fetchData(); expect(data.name).toBe('Alice'); });",
+          "tip2": "Prevents API calls during testing"
+        }
+      },
+      {
+        "question": "How do you test React Context API?",
+        "answer": {
+          "tip": "Wrap the tested component inside the context provider.",
+          "example": "import { render, screen } from '@testing-library/react'; import { ThemeProvider, ThemeContext } from './ThemeContext'; import ThemedComponent from './ThemedComponent'; test('renders component with theme', () => { render(<ThemeProvider><ThemedComponent /></ThemeProvider>); expect(screen.getByText('Dark Mode')).toBeInTheDocument(); });",
+          "tip2": "Ensures context-based components receive correct values"
+        }
+      }
+    ],
+    "End-to-End (E2E) Testing": [
+      {
+        "question": "What is Cypress, and why is it used for E2E testing?",
+        "answer": {
+          "definition": "Cypress is a frontend testing framework for automating UI interactions and browser testing.",
+          "bestFor": [
+            "User navigation & workflows",
+            "Form submissions & API requests"
+          ],
+          "example": "describe('Login Test', () => { it('logs in successfully', () => { cy.visit('/login'); cy.get('#username').type('admin'); cy.get('#password').type('password'); cy.get('button').click(); cy.contains('Welcome, admin').should('be.visible'); }); });",
+          "tip": "Simulates real user flows in the browser"
+        }
+      },
+      {
+        "question": "How do you handle authentication in Cypress tests?",
+        "answer": {
+          "tip": "Use cy.request() to programmatically log in before running tests.",
+          "example": "beforeEach(() => { cy.request('POST', '/api/login', { username: 'admin', password: 'password' }).then((resp) => { localStorage.setItem('token', resp.body.token); }); });",
+          "tip2": "Speeds up tests by bypassing the login UI"
+        }
+      }
+    ],
+    "Snapshot Testing": [
+      {
+        "question": "What is Snapshot Testing in Jest, and how does it work?",
+        "answer": {
+          "definition": "Snapshot testing compares component output to a saved reference snapshot to detect unintended changes.",
+          "example": "import { render } from '@testing-library/react'; test('renders correctly', () => { const { asFragment } = render(<Header />); expect(asFragment()).toMatchSnapshot(); });",
+          "tip": "Fails the test if the UI output changes unexpectedly"
+        }
+      }
+    ],
+    "Best Practices for React Testing": [
+      {
+        "question": "What are best practices for writing React tests?",
+        "answer": {
+          "tips": [
+            "Test behavior, not implementation (getByRole, getByText)",
+            "Use userEvent instead of fireEvent (closer to real user interactions)",
+            "Mock external dependencies (jest.mock())",
+            "Write independent, isolated tests"
+          ]
+        }
+      },
+      {
+        "question": "How do you measure React test coverage?",
+        "answer": {
+          "tip": "Use Jest's built-in --coverage flag to generate coverage reports.",
+          "example": "npm test -- --coverage",
+          "tip2": "Ensures all critical code paths are tested"
+        }
+      }
+    ],
+    "Final Thoughts": {
+      "summary": "These React Testing Strategies cover:",
+      "topics": [
+        "Unit & Integration Testing (Jest, React Testing Library)",
+        "E2E Testing (Cypress)",
+        "Snapshot Testing & Test Coverage Best Practices"
+      ]
+    }
+  }
+  

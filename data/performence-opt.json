@@ -1,0 +1,113 @@
+{
+    "core_performance_concepts": [
+      {
+        "question": "What are the key factors that impact frontend performance?",
+        "answer": [
+          "Network Load (Asset size, requests, caching)",
+          "Rendering Performance (DOM updates, reflows, repaints)",
+          "JavaScript Execution (Blocking scripts, event loops, async tasks)",
+          "Image & Video Optimization (Lazy loading, compression)",
+          "Core Web Vitals (LCP, FID, CLS)"
+        ]
+      },
+      {
+        "question": "What are Core Web Vitals, and why do they matter?",
+        "answer": "Core Web Vitals are Google’s user experience metrics affecting SEO and page rankings.",
+        "metrics": [
+          {
+            "metric": "LCP (Largest Contentful Paint)",
+            "measures": "Load speed of the largest visible element",
+            "optimization_strategies": "Optimize images, lazy loading, CDN"
+          },
+          {
+            "metric": "FID (First Input Delay)",
+            "measures": "Responsiveness of first user interaction",
+            "optimization_strategies": "Reduce JavaScript execution, optimize event listeners"
+          },
+          {
+            "metric": "CLS (Cumulative Layout Shift)",
+            "measures": "Visual stability (layout shifts)",
+            "optimization_strategies": "Use fixed dimensions, avoid ads that shift content"
+          }
+        ],
+        "optimization_examples": [
+          "Improve LCP: Use lazy loading & image compression",
+          "Reduce FID: Minimize JavaScript execution",
+          "Prevent CLS: Define image sizes & avoid dynamic content shifts"
+        ]
+      },
+      {
+        "question": "What is the difference between First Contentful Paint (FCP) and Largest Contentful Paint (LCP)?",
+        "answer": "FCP measures the time taken for the first element (text/image) to render, while LCP measures the time for the largest visible content to render.",
+        "optimization_examples": [
+          "Optimize CSS & fonts for FCP",
+          "Optimize images, use preloading for LCP"
+        ],
+        "example": "<link rel='preload' as='image' href='/hero.jpg'>"
+      }
+    ],
+    "rendering_performance_and_optimizations": [
+      {
+        "question": "What are the differences between Repaint, Reflow, and Layout Shift?",
+        "answer": "Repaint occurs when an element’s style changes without affecting layout. Reflow recalculates layout due to DOM updates or font changes. CLS refers to unexpected UI shifts after content loads.",
+        "optimization_examples": [
+          "Minimize reflows by using transform instead of top/left for animations",
+          "Avoid Layout Shift with Fixed Dimensions"
+        ]
+      },
+      {
+        "question": "How do you optimize rendering performance in a React application?",
+        "answer": "Use React.memo for component memoization, use useCallback & useMemo to avoid unnecessary re-renders, enable concurrent mode & lazy loading for heavy components.",
+        "example": "const Button = React.memo(({ label }) => { console.log('Rendered'); return <button>{label}</button>; });"
+      },
+      {
+        "question": "What is Virtual DOM, and how does it improve performance?",
+        "answer": "The Virtual DOM is a lightweight copy of the real DOM used by React. React updates the VDOM, diffs the old and new VDOMs, and updates only changed elements in the real DOM.",
+        "optimization": "Reduces expensive DOM operations, improving performance"
+      }
+    ],
+    "network_and_asset_optimization": [
+      {
+        "question": "How do you reduce JavaScript execution time?",
+        "answer": "Use Code Splitting & Lazy Loading, Minify & Compress JavaScript (Terser, Babel), Defer non-critical scripts.",
+        "example": [
+          "<script async src='analytics.js'></script>",
+          "<script defer src='main.js'></script>"
+        ]
+      },
+      {
+        "question": "What are the best practices for optimizing CSS performance?",
+        "answer": "Minify & Bundle CSS, Use Critical CSS (Above-the-Fold Content), Remove unused CSS with PurgeCSS.",
+        "example": "<style>.hero { font-size: 24px; color: blue; }</style>"
+      },
+      {
+        "question": "How do you optimize images for faster loading?",
+        "answer": "Use Next-Gen Image Formats (WebP, AVIF), Lazy Load Images (loading='lazy'), Use Responsive Images (srcset).",
+        "example": "<img src='large.jpg' loading='lazy' alt='Optimized Image'>"
+      }
+    ],
+    "advanced_performance_optimizations": [
+      {
+        "question": "What is Code Splitting, and how does it improve performance?",
+        "answer": "Code splitting breaks JavaScript bundles into smaller chunks and loads them on demand. Best practices: Use dynamic imports (React.lazy, import()), Split routes & components.",
+        "example": "const Dashboard = React.lazy(() => import('./Dashboard'));"
+      },
+      {
+        "question": "What are Web Workers, and how do they improve performance?",
+        "answer": "Web Workers allow running JavaScript in the background without blocking the UI thread. Best for heavy calculations, image processing, and large data manipulations.",
+        "example": "const worker = new Worker('worker.js'); worker.postMessage('start'); worker.onmessage = function (e) { console.log('Worker result:', e.data); };"
+      },
+      {
+        "question": "What is HTTP/2, and how does it improve frontend performance?",
+        "answer": "HTTP/2 improves performance with Multiplexing (loads multiple requests at once), Server Push (pushes assets before the browser requests them), and Header Compression (reduces overhead).",
+        "example": "server { listen 443 ssl http2; }"
+      },
+      {
+        "question": "How do you measure frontend performance?",
+        "answer": "Use Google Lighthouse, Chrome DevTools, and Web Vitals Library for Real-User Monitoring (RUM).",
+        "example": "import { getCLS, getLCP, getFID } from 'web-vitals'; getCLS(console.log); getLCP(console.log); getFID(console.log);"
+      }
+    ],
+    "final_thoughts": "These Frontend Performance Optimization interview questions cover: Rendering Optimizations (Reflow, Repaint, VDOM), Network & Asset Optimization (CDN, Compression, Lazy Loading), Advanced Strategies (Code Splitting, Web Workers, HTTP/2)"
+  }
+  

@@ -1,0 +1,71 @@
+{
+    "frontendArchitectureInterviewQuestions": {
+      "coreConcepts": [
+        {
+          "question": "What is Frontend Architecture? Why is it important?",
+          "answer": "Frontend architecture is the design, structure, and organization of frontend codebases to ensure scalability, maintainability, and performance. \n\nImportance:\n- Encourages modular development (components, micro-frontends).\n- Improves code maintainability and reusability.\n- Enhances performance through efficient rendering and lazy loading.\n- Supports collaboration in large teams."
+        },
+        {
+          "question": "What are the key principles of a scalable frontend architecture?",
+          "answer": "Principles:\n- Component-based design – Modular UI components (React, Vue, Angular).\n- State management – Centralized (Redux, Zustand) vs. local state.\n- Code splitting & lazy loading – Optimize performance.\n- Micro-frontends – Independent frontend applications.\n- Reusability & maintainability – DRY (Don't Repeat Yourself) principle.\n- Performance optimizations – Core Web Vitals, caching, SSR (Server-Side Rendering)."
+        },
+        {
+          "question": "What is the difference between Monolithic and Micro-Frontend Architecture?",
+          "answer": "Monolithic Frontend vs Micro-Frontend:\n- Structure: Single large frontend app vs Multiple smaller apps.\n- Codebase: Centralized, hard to scale vs Decentralized, modular.\n- Deployment: One deployment process vs Independent deployments.\n- Teams: Harder to work on in parallel vs Teams work on independent apps.\n- Example: Traditional React/Angular app vs Amazon, Netflix micro-frontends."
+        },
+        {
+          "question": "What is Component-Based Architecture?",
+          "answer": "Component-based architecture is a design pattern where the UI is divided into reusable, self-contained components that manage their own state and behavior. \n\nExample:\n```jsx\nfunction Button({ label }) {\n  return <button>{label}</button>;\n}\n``` \nBenefits:\n- Reusability\n- Maintainability\n- Encapsulation"
+        },
+        {
+          "question": "What is the role of State Management in Frontend Architecture?",
+          "answer": "State management ensures consistent data flow across UI components. \n\nTypes:\n- Local State – Component-level (useState in React).\n- Global State – Shared across components (Redux, Zustand).\n- Server State – Data fetched from APIs (React Query, SWR).\n- URL State – Stored in URL (useLocation, query params)."
+        },
+        {
+          "question": "What is the difference between CSR (Client-Side Rendering), SSR (Server-Side Rendering), and SSG (Static Site Generation)?",
+          "answer": "Rendering Type vs Description vs Example:\n- CSR (Client-Side): Renders content on client after JS loads vs React SPA\n- SSR (Server-Side): Content is generated on the server per request vs Next.js\n- SSG (Static Generation): Pre-generated HTML files vs Blog sites (JAMstack)"
+        }
+      ],
+      "performanceAndOptimization": [
+        {
+          "question": "How do you optimize frontend performance?",
+          "answer": "- Reduce bundle size (Tree shaking, code splitting)\n- Lazy loading images & components\n- Optimize API calls (Debouncing, pagination)\n- Use CDN for static assets\n- Minimize re-renders (React.memo, useCallback)"
+        },
+        {
+          "question": "What is Lazy Loading? How does it improve performance?",
+          "answer": "Lazy loading delays loading non-critical resources until they are needed, reducing initial page load time. \n\nExample (React Lazy Loading a Component):\n```jsx\nconst LazyComponent = React.lazy(() => import(\"./HeavyComponent\"));\n\nfunction App() {\n  return (\n    <Suspense fallback={<div>Loading...</div>}>\n      <LazyComponent />\n    </Suspense>\n  );\n}\n``` \nBenefits:\n- Improves Time to Interactive (TTI)\n- Reduces First Contentful Paint (FCP)"
+        },
+        {
+          "question": "How does Virtual DOM work in React?",
+          "answer": "Virtual DOM is a lightweight copy of the real DOM.\n- React compares the old and new Virtual DOM (Diffing).\n- It updates only changed elements in the real DOM (Reconciliation). \nWhy is it fast?\n- Batch updates instead of modifying the real DOM frequently.\n- Efficient diffing algorithm reduces unnecessary re-renders."
+        },
+        {
+          "question": "What are Core Web Vitals, and why do they matter?",
+          "answer": "Core Web Vitals measure page performance and are important for SEO ranking and user experience.\n- LCP (Largest Contentful Paint) – Loading speed.\n- FID (First Input Delay) – Interactivity delay.\n- CLS (Cumulative Layout Shift) – Visual stability."
+        }
+      ],
+      "advancedFrontendArchitectureConcepts": [
+        {
+          "question": "What are Micro-Frontends, and when should you use them?",
+          "answer": "Micro-frontends break a frontend application into independent, modular applications that can be developed and deployed separately. \n\nBest for:\n- Large teams, multi-tenant platforms.\n- Example: E-commerce with separate apps for Cart, Payments, Product Listing.\n\nImplementation (Using Webpack Module Federation):\n```js\nnew ModuleFederationPlugin({\n  name: \"cart\",\n  filename: \"remoteEntry.js\",\n  exposes: {\n    \"./Cart\": \"./src/Cart\",\n  }\n});\n```"
+        },
+        {
+          "question": "What is Server-Side Rendering (SSR), and when should you use it?",
+          "answer": "SSR renders pages on the server before sending them to the browser. \n\nBest for:\n- SEO-heavy apps (Blogs, E-commerce).\n- Example: Next.js SSR\n\nExample (Next.js SSR API Route):\n```js\nexport async function getServerSideProps() {\n  const res = await fetch(\"https://api.example.com/data\");\n  const data = await res.json();\n  return { props: { data } };\n}\n```"
+        },
+        {
+          "question": "What is Hydration in React?",
+          "answer": "Hydration is the process of attaching event listeners to static HTML content on the client side after SSR.\n- Used in Next.js for SSR and SSG.\n- Avoids re-rendering the page from scratch."
+        },
+        {
+          "question": "What is Edge Computing in Frontend Development?",
+          "answer": "Edge computing moves data processing closer to users using CDNs and edge servers. \n\nExample: Cloudflare Workers, Vercel Edge Functions\n- Faster load times for global users\n\nExample (Vercel Edge Function):\n```js\nexport default async function handler(req, res) {\n  res.json({ message: \"Hello from the Edge!\" });\n}\n```"
+        },
+        {
+          "question": "What are Progressive Web Apps (PWA), and why use them?",
+          "answer": "PWAs combine web and native app features to improve user experience. \n\n- Offline support via Service Workers\n- Push notifications\n- Fast performance\n\nExample (Registering a Service Worker):\n```js\nif ('serviceWorker' in navigator) {\n  navigator.serviceWorker.register('/sw.js');\n}\n```"
+        }
+      ]
+    }
+  }
+  

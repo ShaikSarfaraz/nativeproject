@@ -1,0 +1,65 @@
+{
+  "HTML": {
+    "Basic": [
+      {
+        "question": "What is HTML, and why is it important?",
+        "answer": "HTML (HyperText Markup Language) is the standard language used to create web pages. It structures content using elements like headings, paragraphs, lists, links, and images. HTML is essential because it provides the basic structure of web pages, works with CSS for styling and JavaScript for interactivity, and ensures content is accessible and SEO-friendly."
+      },
+      {
+        "question": "What are semantic HTML elements? Why are they important?",
+        "answer": "Semantic HTML refers to elements that convey meaning about the content. Examples include <header>, <article>, <section>, <aside>, and <footer>. Importance: Improves SEO and accessibility, enhances code readability and maintainability, and helps search engines and assistive technologies understand the page structure."
+      },
+      {
+        "question": "What is the difference between <div> and <span>?",
+        "answer": "<div> is a block-level element used to group larger sections of content. It takes the full width of its parent. <span> is an inline element used for styling specific text within a line. It only takes up the required width."
+      },
+      {
+        "question": "What are block-level and inline elements?",
+        "answer": "Block-level elements take up the full width available and start on a new line (e.g., <div>, <p>, <section>, <article>, <header>, <footer>). Inline elements only take up as much width as needed and do not start on a new line (e.g., <span>, <a>, <b>, <strong>, <em>)."
+      },
+      {
+        "question": "What is the difference between <strong> and <b>?",
+        "answer": "<b> applies bold styling but does not add semantic meaning. <strong> applies bold styling and indicates importance, which improves accessibility and SEO."
+      },
+      {
+        "question": "What is the difference between <em> and <i>?",
+        "answer": "<i> applies italic styling without adding emphasis. <em> applies italic styling and adds semantic emphasis, which helps screen readers."
+      },
+      {
+        "question": "What is the difference between absolute, relative, and fixed URLs?",
+        "answer": "Absolute URL contains the full web address. Relative URL points to a file relative to the current location. Fixed URL is not a standard term but can refer to absolute URLs that do not change dynamically."
+      },
+      {
+        "question": "What are HTML5 new features?",
+        "answer": "Semantic elements, Audio & Video support, Canvas & SVG for graphics, Form enhancements, Local storage & session storage, Geolocation API."
+      },
+      {
+        "question": "What are the different types of form input elements in HTML5?",
+        "answer": "Text-based (text, password, email), Number-based (number, range), Date & time inputs (date, time), Checkbox & radio, File upload, Button types (submit, reset)."
+      }
+    ],
+    "Intermediate": [{}],
+    "Advanced": [{}],
+    "Web Accessibility (WCAG) Questions": [
+      {
+        "question": "What is Web Accessibility (WCAG), and why is it important?",
+        "answer": "Web Accessibility ensures that websites are usable by people with disabilities, including those with visual, auditory, motor, or cognitive impairments. The WCAG (Web Content Accessibility Guidelines) provides standards focusing on Perceivable, Operable, Understandable, and Robust content."
+      },
+      {
+        "question": "What are ARIA roles in HTML, and why are they used?",
+        "answer": "ARIA (Accessible Rich Internet Applications) roles provide extra semantic meaning to assistive technologies like screen readers. Examples include role='button', role='alert', role='navigation', role='dialog'."
+      }
+    ],
+    "SEO (Search Engine Optimization) Questions": [
+      {
+        "question": "What are meta tags in HTML, and why are they important for SEO?",
+        "answer": "Meta tags provide metadata about a web page, helping search engines understand the content. Examples include meta description, meta keywords, meta author, and meta robots."
+      },
+      {
+        "question": "What is the impact of Core Web Vitals on SEO?",
+        "answer": "Core Web Vitals are Google's ranking factors focused on user experience, including Largest Contentful Paint (LCP), First Input Delay (FID), and Cumulative Layout Shift (CLS)."
+      }
+    ]
+  }
+}
+  

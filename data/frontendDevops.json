@@ -1,0 +1,55 @@
+{
+    "Frontend_DevOps": {
+      "CICD": [
+        {
+          "question": "What is CI/CD, and why is it important for frontend development?",
+          "answer": "CI/CD (Continuous Integration & Continuous Deployment) automates testing, building, and deployment of frontend applications.\n\nCI (Continuous Integration): Automatically tests and merges code.\nCD (Continuous Deployment/Delivery): Deploys code to production automatically or with manual approval.\n\nBenefits:\n- Faster feature releases\n- Fewer manual errors\n- Consistent code quality"
+        },
+        {
+          "question": "How would you set up a CI/CD pipeline for a React or Vue application?",
+          "answer": "A CI/CD pipeline consists of:\n- Code Push → GitHub/GitLab/Bitbucket\n- Build & Test → Run unit tests, linting (Jest, ESLint)\n- Deploy to Staging → Build & push artifacts to CDN (AWS S3, Firebase)\n- Deploy to Production → Live deployment\n\nExample (GitHub Actions for React Build & Deploy to Vercel):\n```yaml\nname: Deploy to Vercel\n\non:\n  push:\n    branches:\n      - main\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Checkout Code\n        uses: actions/checkout@v2\n      - name: Install Dependencies\n        run: npm install\n      - name: Run Tests\n        run: npm test\n      - name: Deploy to Vercel\n        run: vercel --prod\n```"
+        },
+        {
+          "question": "What tools can be used for CI/CD in frontend development?",
+          "answer": "CI/CD Services: GitHub Actions, GitLab CI/CD, Jenkins, CircleCI\nBuild Tools: Webpack, Parcel, Vite\nTesting: Jest, Cypress, Playwright\nDeployment Platforms: Vercel, Netlify, AWS S3 + CloudFront"
+        },
+        {
+          "question": "How do you handle environment variables in frontend applications?",
+          "answer": "Store API keys, secrets, and configurations securely using:\n- .env files (React, Vue)\n- Cloud environment variables (Netlify, Vercel, AWS)\n\nExample (.env file in React):\n```text\nREACT_APP_API_URL=https://api.example.com\n```Access in JavaScript:\n```js\nconst apiUrl = process.env.REACT_APP_API_URL;\n```"
+        }
+      ],
+      "deploymentAndHosting": [
+        {
+          "question": "How would you deploy a React, Angular, or Vue application?",
+          "answer": "Static Hosting: Vercel, Netlify, Firebase Hosting\nCDN (Content Delivery Network): AWS S3 + CloudFront\nContainerized Deployment: Docker + Kubernetes\nEdge Deployment: Cloudflare Workers, Vercel Edge Functions\n\nExample (Deploy React App to Netlify):\n```bash\nnetlify deploy --prod\n```"
+        },
+        {
+          "question": "What is the role of a CDN (Content Delivery Network) in frontend deployment?",
+          "answer": "A CDN caches frontend assets (HTML, CSS, JS, images) across global servers to:\n- Improve loading speed\n- Reduce latency\n- Handle high traffic\n\nExample CDN Providers: Cloudflare, AWS CloudFront, Fastly"
+        },
+        {
+          "question": "How would you optimize frontend deployment for performance?",
+          "answer": "- Code Splitting & Lazy Loading\n- Minify & Compress JS, CSS, Images\n- Use Brotli or Gzip Compression\n- Leverage Caching Strategies (Service Workers, CDN)\n\nExample (Gzip Compression in Nginx for Faster Load Times):\n```nginx\ngzip on;\ngzip_types text/javascript text/css;\n```"
+        }
+      ],
+      "MonitoringAndObservability": [
+        {
+          "question": "How would you monitor errors in a frontend application?",
+          "answer": "Use error tracking tools:\n- Sentry (Error logs, performance monitoring)\n- LogRocket (Session replay)\n- Datadog, New Relic (Full observability)\n\nExample (Using Sentry for Error Tracking in React):\n```js\nimport * as Sentry from \"@sentry/react\";\n\nSentry.init({ dsn: \"your-sentry-dsn\" });\n\ntry {\n  throw new Error(\"Something went wrong\");\n} catch (error) {\n  Sentry.captureException(error);\n}\n```"
+        },
+        {
+          "question": "How do you handle frontend performance monitoring?",
+          "answer": "Google Lighthouse (Page Speed Audit)\nCore Web Vitals Monitoring (LCP, FID, CLS)\nSynthetic Monitoring (Pingdom, New Relic)\n\nExample (Web Vitals Monitoring in React):\n```js\nimport { getCLS, getFID, getLCP } from \"web-vitals\";\n\ngetCLS(console.log);\ngetFID(console.log);\ngetLCP(console.log);\n```"
+        },
+        {
+          "question": "How would you set up logging for a frontend application?",
+          "answer": "Use centralized logging services:\n- Console Logging (For Dev Debugging)\n- Remote Logging (ELK Stack, LogRocket, Sentry)\n\nExample (Sending Logs to an API):\n```js\nfunction logError(message, data) {\n  fetch(\"/api/logs\", {\n    method: \"POST\",\n    body: JSON.stringify({ message, data }),\n  });\n}\n```"
+        },
+        {
+          "question": "How do you set up health checks for a frontend application?",
+          "answer": "Use:\n- Heartbeat Checks – Ping frontend URLs periodically\n- Synthetic Monitoring – Simulate user interactions\n- API Health Checks – Check backend connectivity\n\nExample (Simple Health Check in Express Server):\n```js\napp.get(\"/health\", (req, res) => {\n  res.status(200).json({ status: \"OK\" });\n});\n```"
+        }
+      ]
+    }
+  }
+  

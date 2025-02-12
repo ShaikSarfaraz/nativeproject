@@ -1,0 +1,52 @@
+{
+  "CSS": {
+    "Basics": [
+      {
+        "question": "What is CSS, and why is it used?",
+        "answer": "CSS (Cascading Style Sheets) is a stylesheet language used to control the appearance and layout of web pages.\n\nIt is used to:\n- Style elements (color, font, background, etc.).\n- Control layout (positioning, flexbox, grid, etc.).\n- Ensure responsiveness across different devices.\n- Enhance accessibility and user experience."
+      },
+      {
+        "question": "What are the different ways to apply CSS to a webpage?",
+        "answer": "1. **Inline CSS (Inside an HTML element)**\n   ```html\n   <p style=\"color: blue;\">This is a blue paragraph.</p>\n   ```\n   \n2. **Internal CSS (Inside `<style>` tag in `<head>`)**\n   ```css\n   <style>\n     p { color: blue; }\n   </style>\n   ```\n   \n3. **External CSS (Separate .css file linked in `<head>`)**\n   ```html\n   <link rel=\"stylesheet\" href=\"styles.css\">\n   ```\n\n**Best Practice:** Use external CSS for maintainability."
+      },
+      {
+        "question": "What is the difference between relative, absolute, fixed, and sticky positioning in CSS?",
+        "answer": "Relative: Positions element relative to its normal position.\nAbsolute: Positions element relative to the nearest positioned ancestor or to the viewport if none exists.\nFixed: Positions element relative to the viewport, meaning it stays fixed when scrolling.\nSticky: Behaves like relative but sticks to the viewport when a user scrolls past it.\n\nExample:\n```css\n.relative-box { position: relative; left: 20px; }\n.absolute-box { position: absolute; top: 10px; right: 10px; }\n.fixed-box { position: fixed; bottom: 0; right: 0; }\n.sticky-box { position: sticky; top: 20px; }\n```"
+      },
+      {
+        "question": "What is the difference between em, rem, %, px, and vh/vw in CSS?",
+        "answer": "px: Absolute unit, fixed size.\n%: Relative to the parent element.\nem: Relative to the font-size of the parent.\nrem: Relative to the root element (html) font-size.\nvh / vw: Relative to viewport height/width.\n\nExample:\n```css\nhtml { font-size: 16px; }\n.container { font-size: 2em; }  /* 32px */\n.box { width: 50vw; height: 50vh; }  /* 50% of viewport */\n```"
+      },
+      {
+        "question": "What is Flexbox, and how does it work?",
+        "answer": "Flexbox is a CSS layout module designed to arrange elements efficiently in a one-dimensional row or column.\n\nCommon Flexbox Properties:\n```css\n.container {\n  display: flex;\n  justify-content: space-between; /* Aligns items horizontally */\n  align-items: center; /* Aligns items vertically */\n  flex-wrap: wrap; /* Wrap items to next row if necessary */\n}\n```"
+      },
+      {
+        "question": "What is CSS Grid, and how does it differ from Flexbox?",
+        "answer": "CSS Grid is a two-dimensional layout system that organizes content into rows and columns.\n\nFlexbox vs Grid:\n\n| Feature | Flexbox | Grid |\n|---------|---------|------|\n| Layout Type | One-dimensional | Two-dimensional |\n| Best For | Aligning items in a row/column | Complex layouts |\n\nExample Grid Layout:\n```css\n.container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n}\n```"
+      },
+      {
+        "question": "What is the difference between CSS animations and transitions?",
+        "answer": "Transitions require a trigger (hover, focus), while animations can run automatically with keyframes.\n\nExample Transition:\n```css\nbutton {\n  background-color: blue;\n  transition: background-color 0.5s ease-in-out;\n}\nbutton:hover {\n  background-color: red;\n}\n```\n\nExample Animation:\n```css\n@keyframes fadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n.box {\n  animation: fadeIn 2s ease-in-out;\n}\n```"
+      },
+      {
+        "question": "What is the mobile-first approach in CSS?",
+        "answer": "The mobile-first approach means designing for mobile screens first, then adding styles for larger screens using min-width media queries.\n\nExample:\n```css\n/* Mobile styles (default) */\nbody { font-size: 14px; }\n\n/* Tablet styles */\n@media (min-width: 768px) {\n  body { font-size: 16px; }\n}\n\n/* Desktop styles */\n@media (min-width: 1024px) {\n  body { font-size: 18px; }\n}\n```"
+      },
+      {
+        "question": "What is BEM in CSS, and why is it useful?",
+        "answer": "BEM (Block, Element, Modifier) is a CSS naming convention that improves scalability and maintainability.\n\nExample:\n```css\n/* Block */\n.button { background-color: blue; }\n\n/* Element */\n.button__icon { width: 16px; height: 16px; }\n\n/* Modifier */\n.button--disabled { opacity: 0.5; }\n```\n\n- **Block**: `.button` (standalone component).\n- **Element**: `.button__icon` (part of block).\n- **Modifier**: `.button--disabled` (variant of block)."
+      },
+      {
+        "question": "What are CSS variables, and how do you use them?",
+        "answer": "CSS variables store values for reuse.\n\nExample:\n```css\n:root {\n  --primary-color: blue;\n}\nbutton {\n  background-color: var(--primary-color);\n}\n```"
+      },
+      {
+        "question": "What are mixins in SASS, and how do they work?",
+        "answer": "Mixins allow reusable styles with dynamic values.\n\nExample:\n```css\n@mixin button-style($color) {\n  background-color: $color;\n  color: white;\n  padding: 10px;\n}\n\nbutton {\n  @include button-style(blue);\n}\n```"
+      }
+    ],
+    "Intermediate": [{}],
+    "Advanced": [{}]
+  }
+  }
