@@ -28,33 +28,40 @@ import systemDesignData from "./data/system-desiign.json"
 // import advancedData from "./data/react_advance.json"
 
 type QuestionItem = {
-  question: string
-  answer: string | string[]
-  example?: Record<string, string | Record<string, string>>
+  question: string;
+  answer: string | string[];
+  example?: Record<string, string | Record<string, string>>;
 }
 
 type DataStructure = {
-  [key: string]: QuestionItem[] | Record<string, QuestionItem[] | Record<string, QuestionItem>>
+  [key: string]: 
+    | QuestionItem[] 
+    | Record<string, QuestionItem[] | Record<string, QuestionItem>>;
+};
+
+
+function normalizeData(data: any): QuestionItem[] | Record<string, QuestionItem[]> {
+  if (Array.isArray(data)) {
+    return data as QuestionItem[];
+  } else if (typeof data === "object" && data !== null) {
+    const normalized: Record<string, QuestionItem[]> = {};
+    Object.entries(data).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        normalized[key] = value as QuestionItem[];
+      } else if (typeof value === "object" && value !== null) {
+        const nestedNormalized = normalizeData(value);
+        if (Array.isArray(nestedNormalized)) {
+          normalized[key] = nestedNormalized;
+        } else {
+          Object.assign(normalized, nestedNormalized);
+        }
+      }
+    });
+    return normalized;
+  }
+  return [];
 }
 
-// function normalizeData(data: any): QuestionItem[] | Record<string, QuestionItem[]> {
-//   if (Array.isArray(data)) {
-//     return data
-//   } else if (typeof data === "object") {
-//     return Object.entries(data).reduce(
-//       (acc, [key, value]) => {
-//         if (Array.isArray(value)) {
-//           acc[key] = value
-//         } else if (typeof value === "object") {
-//           acc[key] = normalizeData(value)
-//         }
-//         return acc
-//       },
-//       {} as Record<string, QuestionItem[]>,
-//     )
-//   }
-//   return []
-// }
 
 // const allData: DataStructure = {
 //   ...htmlData,
@@ -74,21 +81,20 @@ type DataStructure = {
 // }
 
 const allData: DataStructure = {
-  ...htmlData,
-  ...cssData,
-  ...jsData,
-  ...reactData,
-  ...endToEndData,
-  ...designData,
-  ...performanceData,
-  ...securityData,
-  ...apiData,
-  ...architectureData,
-  ...devopsData,
-  ...systemDesignData,
-  // ...testingData,
-  // ...advancedData,
-}
+  HTML: normalizeData(htmlData),
+  CSS: normalizeData(cssData),
+  JavaScript: normalizeData(jsData),
+  React: normalizeData(reactData),
+  endToEnd: normalizeData(endToEndData),
+  Design: normalizeData(designData),
+  Performance: normalizeData(performanceData),
+  Security: normalizeData(securityData),
+  API: normalizeData(apiData),
+  Architecture: normalizeData(architectureData),
+  Devops: normalizeData(devopsData),
+  SystemDesign: normalizeData(systemDesignData),
+};
+
 
 type SectionProps = {
   title: string
