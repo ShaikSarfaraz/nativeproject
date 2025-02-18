@@ -1,54 +1,54 @@
-import type React from "react"
-import { useState } from "react"
+import React, { useState, useRef } from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
   View,
   TouchableOpacity,
-  Image
-} from "react-native"
+  Image,
+  Animated,
+  Easing,
+} from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import htmlData from "./data/html_qna.json"
-import cssData from "./data/css_qna.json"
-import jsData from "./data/javascript_qns.json"
-import reactData from  "./data/react.json"
-import performanceData from "./data/performence-opt.json"
-import securityData from "./data/frontend-security.json"
-import apiData from "./data/apintegratioin.json"
-import architectureData from "./data/artitecture.json"
-import devopsData from "./data/frontendDevops.json"
-import endToEndData from "./data/react_endToEnd.json"
-import designData from "./data/react_design.json"
-import systemDesignData from "./data/system-desiign.json"
-// import testingData from "./data/react_testing.json"
-// import advancedData from "./data/react_advance.json"
+// Import your data files
+import htmlData from './data/html_qna.json';
+import cssData from './data/css_qna.json';
+import jsData from './data/javascript_qns.json';
+import reactData from './data/react.json';
+import performanceData from './data/performence-opt.json';
+import securityData from './data/frontend-security.json';
+import apiData from './data/apintegratioin.json';
+import architectureData from './data/artitecture.json';
+import devopsData from './data/frontendDevops.json';
+import endToEndData from './data/react_endToEnd.json';
+import designData from './data/react_design.json';
+import systemDesignData from './data/system-desiign.json';
 
 type QuestionItem = {
   question: string;
   answer: string | string[];
   example?: Record<string, string | Record<string, string>>;
-}
-
-type DataStructure = {
-  [key: string]: 
-    | QuestionItem[] 
-    | Record<string, QuestionItem[] | Record<string, QuestionItem>>;
 };
 
+type DataStructure = {
+  [key: string]: QuestionItem[] | Record<string, QuestionItem[] | Record<string, QuestionItem>>;
+};
 
-function normalizeData(data: any): QuestionItem[] | Record<string, QuestionItem[]> {
+const normalizeData = (data: any): QuestionItem[] | Record<string, QuestionItem[]> => {
   if (Array.isArray(data)) {
     return data as QuestionItem[];
-  } else if (typeof data === "object" && data !== null) {
+  }
+  if (typeof data === 'object' && data !== null) {
     const normalized: Record<string, QuestionItem[]> = {};
     Object.entries(data).forEach(([key, value]) => {
       if (Array.isArray(value)) {
         normalized[key] = value as QuestionItem[];
-      } else if (typeof value === "object" && value !== null) {
+      } else if (typeof value === 'object' && value !== null) {
         const nestedNormalized = normalizeData(value);
         if (Array.isArray(nestedNormalized)) {
           normalized[key] = nestedNormalized;
@@ -60,25 +60,7 @@ function normalizeData(data: any): QuestionItem[] | Record<string, QuestionItem[
     return normalized;
   }
   return [];
-}
-
-
-// const allData: DataStructure = {
-//   ...htmlData,
-//   ...cssData,
-//   ...jsData,
-//   ...reactData,
-//   ...endToEndData,
-//   ...designData,
-//   ...performanceData,
-//   ...securityData,
-//   ...apiData,
-//   ...architectureData,
-//   ...devopsData,
-//   ...systemDesignData,
-//   // ...testingData,
-//   // ...advancedData,
-// }
+};
 
 const allData: DataStructure = {
   HTML: normalizeData(htmlData),
@@ -95,254 +77,283 @@ const allData: DataStructure = {
   SystemDesign: normalizeData(systemDesignData),
 };
 
+const routes = [
+  { key: 'HTML', title: 'HTML' },
+  { key: 'CSS', title: 'CSS' },
+  { key: 'JavaScript', title: 'JS/TS' },
+  { key: 'React', title: 'React' },
+];
 
-type SectionProps = {
-  title: string
-  children: React.ReactNode
-  onToggleVisibility: () => void
-  isVisible: boolean
-}
+const renderScene = SceneMap({
+  HTML: () => <CategoryScreen category="HTML" />,
+  CSS: () => <CategoryScreen category="CSS" />,
+  JavaScript: () => <CategoryScreen category="JavaScript" />,
+  React: () => <CategoryScreen category="React" />,
+});
 
-function Section({ title, children, onToggleVisibility, isVisible }: SectionProps) {
-  const isDarkMode = useColorScheme() === "dark"
-  return (
-    <View style={styles.sectionContainer}>
-      <TouchableOpacity onPress={onToggleVisibility} style={styles.questionContainer}>
-        <Text style={[styles.sectionTitle, { color: isDarkMode ? "#fff" : "#000" }]}>{title}</Text>
-        <Text style={styles.arrow}>{isVisible ? "↑" : "↓"}</Text>
-      </TouchableOpacity>
-      {isVisible && (
-        <Text style={[styles.sectionDescription, { color: isDarkMode ? "#ccc" : "#333" }]}>
-          {Array.isArray(children) ? children.join("\n\n") : children}
-        </Text>
-      )}
-    </View>
-  )
-}
+const CategoryScreen = ({ category }: { category: string }) => {
+  const [visibleAnswers, setVisibleAnswers] = useState<Record<string, boolean>>({});
 
-function App() {
-  const isDarkMode = useColorScheme() === "dark"
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? "#222" : "#f8f9fa",
-  }
-
-  const [visibleAnswers, setVisibleAnswers] = useState<Record<string, boolean>>({})
-
-  const toggleVisibility = (index: string) => {
-    setVisibleAnswers((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index],
-    }))
-  }
+  const toggleVisibility = (id: string) => {
+    setVisibleAnswers(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   const renderQuestions = (
-    questions: QuestionItem[] | Record<string, QuestionItem[] | Record<string, QuestionItem>>,
-    category: string,
+    questions: QuestionItem[] | Record<string, any>,
+    parentId = ''
   ) => {
     if (Array.isArray(questions)) {
       return questions.map((item, idx) => (
-        <Section
-          key={`${category}-${idx}`}
+        <QuestionSection
+          key={`${parentId}-${idx}`}
           title={item.question}
-          onToggleVisibility={() => toggleVisibility(`${category}-${idx}`)}
-          isVisible={visibleAnswers[`${category}-${idx}`] || false}
+          isVisible={!!visibleAnswers[`${parentId}-${idx}`]}
+          onToggle={() => toggleVisibility(`${parentId}-${idx}`)}
         >
           {item.answer}
-        </Section>
-      ))
-    } else {
-      return Object.entries(questions).map(([subCategory, subQuestions], subIdx) => (
-        <View key={`${category}-${subCategory}`}>
-          <TouchableOpacity
-            style={styles.subTitleContainer}
-            onPress={() => toggleVisibility(`${category}-${subCategory}`)}
-          >
-            <Text style={styles.subCategoryTitle}>
-              {subCategory} <Text style={styles.arrow}>{visibleAnswers[`${category}-${subCategory}`] ? "↑" : "↓"}</Text>
-            </Text>
-          </TouchableOpacity>
-
-          {visibleAnswers[`${category}-${subCategory}`] &&
-            (Array.isArray(subQuestions)
-              ? subQuestions.map((item, idx) => (
-                <Section
-                  key={`${category}-${subCategory}-${idx}`}
-                  title={item.question}
-                  onToggleVisibility={() => toggleVisibility(`${category}-${subCategory}-${idx}`)}
-                  isVisible={visibleAnswers[`${category}-${subCategory}-${idx}`] || false}
-                >
-                  {item.answer}
-                </Section>
-              ))
-              : Object.entries(subQuestions).map(([subSubCategory, item], idx) => (
-                <Section
-                  key={`${category}-${subCategory}-${subSubCategory}`}
-                  title={(item as QuestionItem).question}
-                  onToggleVisibility={() => toggleVisibility(`${category}-${subCategory}-${subSubCategory}`)}
-                  isVisible={visibleAnswers[`${category}-${subCategory}-${subSubCategory}`] || false}
-                >
-                  {(item as QuestionItem).answer}
-                </Section>
-              )))}
-        </View>
-      ))
+        </QuestionSection>
+      ));
     }
-  }
+
+    return Object.entries(questions).map(([key, value], idx) => (
+      <View key={`${parentId}-${key}-${idx}`}>
+        <TouchableOpacity
+          style={styles.subCategoryHeader}
+          onPress={() => toggleVisibility(`${parentId}-${key}`)}
+        >
+          <Text style={styles.subCategoryText}>{key}</Text>
+          <AnimatedIcon isVisible={!!visibleAnswers[`${parentId}-${key}`]} />
+        </TouchableOpacity>
+        {visibleAnswers[`${parentId}-${key}`] && (
+          <View style={styles.subCategoryContent}>
+            {renderQuestions(value, `${parentId}-${key}`)}
+          </View>
+        )}
+      </View>
+    ));
+  };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-        <View style={styles.container}>
-          <Image
-            source={require('./assets/trangla-logo.png')}
-            style={styles.image}
+    <ScrollView
+      contentContainerStyle={styles.categoryContainer}
+      showsVerticalScrollIndicator={false}
+    >
+      {renderQuestions(allData[category], category)}
+    </ScrollView>
+  );
+};
+
+const AnimatedIcon = ({ isVisible }: { isVisible: boolean }) => {
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(rotateAnim, {
+      toValue: isVisible ? 1 : 0,
+      duration: 300,
+      // easing: Easing.easeOut,
+      useNativeDriver: true,
+    }).start();
+  }, [isVisible]);
+
+  const rotate = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '180deg'],
+  });
+
+  return (
+    <Animated.View style={{ transform: [{ rotate }] }}>
+      <Icon name="keyboard-arrow-down" size={24} color="#6C24AA" />
+    </Animated.View>
+  );
+};
+
+const QuestionSection = ({
+  title,
+  children,
+  isVisible,
+  onToggle,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isVisible: boolean;
+  onToggle: () => void;
+}) => {
+  const heightAnim = useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    Animated.timing(heightAnim, {
+      toValue: isVisible ? 1 : 0,
+      duration: 300,
+      // easing: Easing.easeOut,
+      useNativeDriver: false,
+    }).start();
+  }, [isVisible]);
+
+  const height = heightAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1000], // Adjust based on maximum expected content height
+  });
+
+  return (
+    <View style={styles.sectionContainer}>
+      <TouchableOpacity
+        onPress={onToggle}
+        style={styles.questionHeader}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.questionText}>{title}</Text>
+        <AnimatedIcon isVisible={isVisible} />
+      </TouchableOpacity>
+
+      <Animated.View style={{ maxHeight: height, overflow: 'hidden' }}>
+        <View style={styles.answerContainer}>
+          {Array.isArray(children) ? (
+            children.map((text, index) => (
+              <Text key={index} style={styles.answerText}>
+                {text}
+              </Text>
+            ))
+          ) : (
+            <Text style={styles.answerText}>{children}</Text>
+          )}
+        </View>
+      </Animated.View>
+    </View>
+  );
+};
+
+const App = () => {
+  const [index, setIndex] = useState(0);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <LinearGradient
+        colors={['#6C24AA', '#4B088A']}
+        style={styles.header}
+      >
+        <Image
+          source={require('./assets/trangla-logo.png')}
+          style={styles.logo}
+        />
+        <Text style={styles.title}>Interview Preparation</Text>
+      </LinearGradient>
+
+      <TabView
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            indicatorStyle={styles.tabIndicator}
+            style={styles.tabBar}
+            // labelStyle={styles.tabLabel}
+            activeColor="#FFD700"
+            inactiveColor="#FFFFFF"
           />
-          {/* <Text style={styles.title}>Welcome to Trangla</Text> */}
-          {/* <Text style={styles.subtitle}>Interview Preparation</Text> */}
-        </View>
-        <View style={styles.container2}>
-          <Text style={styles.title}>Interview Preparation</Text>
-          {/* <Text style={styles.subtitle}>Interview Preparation</Text> */}
-        </View>
-        <View style={styles.container3}>
-          <Image source={require('./assets/html.webp')} style={styles.logos} />
-          <Image source={require('./assets/css.webp')} style={styles.logos} />
-          <Image source={require('./assets/js.png')} style={styles.logos1} />
-          <Image source={require('./assets/react.png')} style={styles.logos} />
-        </View>
-
-        <View style={styles.container4}>
-            {/* <Text style={styles.subtitle}>Topics</Text> */}
-            {Object.entries(allData).map(([category, questions], index) => (
-              <View key={category}>
-                <TouchableOpacity style={styles.titleContainer} onPress={() => toggleVisibility(category)}>
-                  <Text style={styles.categoryTitle}>
-                    {category} <Text style={styles.arrow}>{visibleAnswers[category] ? "" : ""}</Text>
-                  </Text>
-                </TouchableOpacity>
-
-                {visibleAnswers[category] && renderQuestions(questions, category)}
-              </View>
-            ))}
-        </View>
-      </ScrollView>
+        )}
+      />
     </SafeAreaView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
-    // backgroundColor: "#344b4a",
-    alignItems: "center",
-    justifyContent: "center",
+    flex: 1,
+    backgroundColor: '#F8F9FA',
   },
-  container2: {
-    padding: 16,
-    // backgroundColor: "#030303",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#f0f0f0",
-    borderRadius: 42,
-  },
-  container3: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  header: {
+    paddingVertical: 24,
     alignItems: 'center',
-    padding: 10,
-    margin: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
-  container4: {
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'flex-start',
-    padding: 10,
-    // margin : 20,
-    marginLeft: 20,
-    marginRight: 20
-  },
-  logos: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
-  },
-  logos1: {
-    width: 50,
-    height: 50,
-    resizeMode: 'contain',
-    borderRadius: 35,
-  },
-  image: {
-    width: 250,
-    height: 80,
-    marginBottom: 10,
+  logo: {
+    width: 200,
+    height: 60,
+    marginBottom: 16,
     resizeMode: 'contain',
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 8,
-    fontFamily: "monospace",
-    // color: "#fff",
+    fontWeight: '700',
+    color: '#FFFFFF',
+    letterSpacing: 0.5,
   },
-  subtitle: {
-    fontSize: 16,
-    marginBottom: 16,
-    // color: "#fff",
+  tabBar: {
+    backgroundColor: '#6C24AA',
+    elevation: 0,
+    shadowOpacity: 0,
   },
-  titleContainer: {
-    marginTop: 16,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 30,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    // alignItems: "center",
-    // justifyContent: "center",
+  tabIndicator: {
+    backgroundColor: '#FFD700',
+    height: 3,
   },
-  categoryTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#4f0b6a",
+  tabLabel: {
+    fontWeight: '600',
+    fontSize: 14,
+    textTransform: 'capitalize',
+    color: '#FFFFFF',
   },
-  sectionContainer: {
-    marginTop: 8,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 8,
+  categoryContainer: {
     padding: 16,
   },
-  questionContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+  sectionContainer: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  questionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 18,
+  },
+  questionText: {
+    flex: 1,
+    fontSize: 16,
+    color: '#2D3748',
+    fontWeight: '600',
+    marginRight: 12,
+  },
+  answerContainer: {
+    paddingHorizontal: 18,
+    paddingBottom: 18,
+  },
+  answerText: {
+    fontSize: 15,
+    color: '#4A5568',
+    lineHeight: 22,
     marginBottom: 8,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  sectionDescription: {
-    fontSize: 16,
-  },
-  arrow: {
-    fontSize: 20,
-  },
-  subTitleContainer: {
-    marginTop: 8,
-    backgroundColor: "#f0f0f0",
+  subCategoryHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#F7FAFC',
     borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    marginVertical: 8,
   },
-  subCategoryTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#0056b3",
+  subCategoryText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#4B088A',
   },
-})
+  subCategoryContent: {
+    marginLeft: 16,
+    borderLeftWidth: 2,
+    borderLeftColor: '#E2E8F0',
+  },
+});
 
-export default App
-
+export default App;
