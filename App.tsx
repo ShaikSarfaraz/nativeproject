@@ -62,24 +62,6 @@ function normalizeData(data: any): QuestionItem[] | Record<string, QuestionItem[
   return [];
 }
 
-
-// const allData: DataStructure = {
-//   ...htmlData,
-//   ...cssData,
-//   ...jsData,
-//   ...reactData,
-//   ...endToEndData,
-//   ...designData,
-//   ...performanceData,
-//   ...securityData,
-//   ...apiData,
-//   ...architectureData,
-//   ...devopsData,
-//   ...systemDesignData,
-//   // ...testingData,
-//   // ...advancedData,
-// }
-
 const allData: DataStructure = {
   HTML: normalizeData(htmlData),
   CSS: normalizeData(cssData),
@@ -201,12 +183,9 @@ function App() {
             source={require('./assets/trangla-logo.png')}
             style={styles.image}
           />
-          {/* <Text style={styles.title}>Welcome to Trangla</Text> */}
-          {/* <Text style={styles.subtitle}>Interview Preparation</Text> */}
         </View>
         <View style={styles.container2}>
           <Text style={styles.title}>Interview Preparation</Text>
-          {/* <Text style={styles.subtitle}>Interview Preparation</Text> */}
         </View>
         <View style={styles.container3}>
           <Image source={require('./assets/html.webp')} style={styles.logos} />
@@ -216,7 +195,6 @@ function App() {
         </View>
 
         <View style={styles.container4}>
-            {/* <Text style={styles.subtitle}>Topics</Text> */}
             {Object.entries(allData).map(([category, questions], index) => (
               <View key={category}>
                 <TouchableOpacity style={styles.titleContainer} onPress={() => toggleVisibility(category)}>
@@ -237,13 +215,11 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    // backgroundColor: "#344b4a",
     alignItems: "center",
     justifyContent: "center",
   },
   container2: {
     padding: 16,
-    // backgroundColor: "#030303",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#f0f0f0",
@@ -257,11 +233,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   container4: {
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // alignItems: 'flex-start',
     padding: 10,
-    // margin : 20,
     marginLeft: 20,
     marginRight: 20
   },
@@ -292,7 +264,6 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     marginBottom: 16,
-    // color: "#fff",
   },
   titleContainer: {
     marginTop: 16,
@@ -300,8 +271,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingHorizontal: 16,
     paddingVertical: 8,
-    // alignItems: "center",
-    // justifyContent: "center",
   },
   categoryTitle: {
     fontSize: 20,
